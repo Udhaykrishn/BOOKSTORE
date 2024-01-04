@@ -1,0 +1,38 @@
+version: "3"
+services:
+  client:
+    container_name: client-app
+    build: ./client
+    stdin_open: true
+    tty: true
+    ports: 
+      - "5173:5173"
+    networks:
+      - mern-app
+    depends_on:
+      - server
+
+  server:
+    container_name: server-app
+    build: ./backend
+    restart: always
+    ports:
+      - "3003:3003"
+    environment:
+       MONGODB_URI: "mongodb+srv://krishnauday320:1234@cluster0.gj14gov.mongodb.net/?retryWrites=true&w=majority"
+    networks:
+      - mern-app
+
+  database:
+    container_name: database-app
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    networks:
+      - mern-app
+    volumes:
+      - ./mongo-backup:/data/db
+    
+networks:
+  mern-app:
+    driver: bridge

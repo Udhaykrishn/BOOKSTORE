@@ -33,8 +33,8 @@ router.post("/", async (req, res) => {
         data: books,
       });
     } catch (err) {
-      console.log(error.message);
-      res.status(500).send({ message: error.message });
+      console.log(err.message);
+      res.status(500).send({ message: err.message });
     }
   });
   
@@ -45,7 +45,7 @@ router.post("/", async (req, res) => {
   
       const books = await Book.findById(id);
       return res.status(200).json(books);
-    } catch (err) {
+    } catch (error) {
       console.log(error.message);
       res.status(500).send({ message: error.message });
     }
